@@ -1,11 +1,17 @@
 ﻿#nullable disable
 
+using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel.DataAnnotations;
 
 namespace CryptoStats.ViewModels
 {
+   
     public class RegisterViewModel
     {
+        [Required]
+        [Display(Name = "Name")]
+        public string Name { get; set; }
+
         [Required]
         [Display(Name = "Email")]
         public string Email { get; set; }
@@ -15,7 +21,9 @@ namespace CryptoStats.ViewModels
         [Display(Name ="Password")]
         public string Password { get; set; }
 
-
+        [Required]
+        [Compare("Password", ErrorMessage = "Passwords do not match")]
+        [DataType(DataType.Password)]
         [Display(Name = "Confirm password")]
         public string PasswordConfirm { get; set; }
         
