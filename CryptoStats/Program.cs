@@ -1,4 +1,6 @@
 using CryptoStats.Data;
+using CryptoStats.Models.Account;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -10,14 +12,37 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(connectionString));
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
-builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
+builder.Services.AddDefaultIdentity<User>().AddRoles<IdentityRole>()
     .AddEntityFrameworkStores<ApplicationDbContext>();
 
+//Overide the configuration 
+builder.Services.Configure<IdentityOptions>(opt =>
+    {
+        // Password settings 
+        opt.Password.RequireDigit = true;
+        opt.Password.RequiredLength = 8;
+        // Lockout settings 
+        opt.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(60);
+        opt.Lockout.MaxFailedAccessAttempts = 5;
+        //Signin option
+        opt.SignIn.RequireConfirmedEmail = false;
+        // User settings 
+        opt.User.RequireUniqueEmail = true;        
+    });
 
-builder.Services.AddControllersWithViews();
+// Cookie settings 
+builder.Services.ConfigureApplicationCookie(options =>
+{
+    options.Cookie.MaxAge = TimeSpan.FromHours(12);    
+    options.LoginPath = "/Identity/Login";
+    options.LogoutPath = "/Identity/Logout";
+    options.SlidingExpiration = true;
+});
+
+builder.Services.AddControllersWithViews().AddRazorRuntimeCompilation();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-
+builder.Services.AddRazorPages();
 
 var app = builder.Build();
 
@@ -45,7 +70,7 @@ app.UseAuthorization();
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Identity}/{action=Login}/{id?}");
+    pattern: "{controller=Home}/{action=Index}/{id?}");
 app.MapRazorPages();
 
 app.Run();

@@ -1,0 +1,58 @@
+﻿@model CryptoStats.ViewModels.RegisterViewModel
+
+@{
+    ViewData["Title"] = "Register";
+    Layout = "~/Views/Shared/_LayoutLogin.cshtml";
+}
+
+<main class="form-signin w-100 m-auto">
+    <form method="post" asp-controller="Identity" asp-action="Register">
+        
+        <img class="mb-4" src="~/images/login/Allay.webp" alt="" width="120" height="120">
+        <h1 class="h3 mb-3 fw-normal">Register</h1>
+
+        <div asp-validation-summary="ModelOnly"></div>
+
+        <!-- Name input -->
+        <div class="form-outline mb-4">
+            <input asp-for="Name" type="text" id="registerName" class="form-control" />
+            <label asp-for="Name" class="form-label" for="registerName">Name</label>
+            <span class="invalid-feedback" asp-validation-for="Name"></span>
+        </div>
+
+        <!-- Email input -->
+        <div class="form-outline mb-4">
+            <input asp-for="Email" type="email" id="registerEmail" class="form-control" />
+            <label asp-for="Email" class="form-label" for="registerEmail">Email</label>
+            <span class="invalid-feedback" asp-validation-for="Email"></span>
+        </div>
+
+        <!-- Password input -->
+        <div class="form-outline mb-4">
+            <input asp-for="Password" type="password" id="registerPassword" class="form-control" />
+            <label asp-for="Password" class="form-label" for="registerPassword">Password</label>
+            <span class="invalid-feedback" asp-validation-for="Password"></span>
+        </div>
+
+        <!-- Password confirm input -->
+        <div class="form-outline mb-4">                       
+            <input asp-for="PasswordConfirm" type="password" id="registerPasswordConfirm" class="form-control" />
+            <label asp-for="PasswordConfirm" class="form-label" for="registerPasswordConfirm">Confirm password</label>
+            <span class="invalid-feedback" asp-validation-for="PasswordConfirm"></span>
+        </div>
+        <button class="w-100 btn btn-lg btn-primary" type="submit">Register</button>
+    </form>
+    <div class="register mt-3">
+        <p>Are you registered?  <a class="text-muted" asp-area="" asp-controller="Identity" asp-action="Login">Sign in</a></p>
+    </div>
+
+    @if (DateTime.Now.Year > 2022)
+    {
+        <p class="mt-5 mb-3 text-muted">&copy; 2022 - @DateTime.Now.Year</p>
+    }
+    else
+    {
+        <p class="mt-5 mb-3 text-muted">&copy; @DateTime.Now.Year</p>
+    }
+</main>
+
