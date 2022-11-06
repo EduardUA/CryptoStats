@@ -3,6 +3,7 @@ using CryptoStats.Models.Account;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.StaticFiles;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -61,6 +62,25 @@ else
 }
 
 app.UseHttpsRedirection();
+
+StaticFileOptions staticFileOptions = new StaticFileOptions();
+FileExtensionContentTypeProvider typeProvider = new FileExtensionContentTypeProvider();
+if (!typeProvider.Mappings.ContainsKey(".woff2"))
+{
+    typeProvider.Mappings.Add(".woff2", "application/font-woff2");
+}
+
+if (!typeProvider.Mappings.ContainsKey(".woff"))
+{
+    typeProvider.Mappings.Add(".woff", "application/font-woff");
+}
+
+if (!typeProvider.Mappings.ContainsKey(".ttf"))
+{
+    typeProvider.Mappings.Add(".ttf", "application/font-ttf");
+}
+staticFileOptions.ContentTypeProvider = typeProvider;
+app.UseStaticFiles(staticFileOptions);
 app.UseStaticFiles();
 
 app.UseRouting();

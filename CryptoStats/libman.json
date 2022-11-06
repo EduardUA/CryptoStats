@@ -1,0 +1,18 @@
+{
+  "version": "1.0",
+  "defaultProvider": "cdnjs",
+  "libraries": [
+    {
+      "library": "font-awesome@6.2.0",
+      "destination": "wwwroot/lib/font-awesome/"
+    },
+    {
+      "library": "vue@3.2.41",
+      "destination": "wwwroot/lib/vue/"
+    },
+    {
+      "library": "vue-resource@1.5.3",
+      "destination": "wwwroot/lib/vue-resource/"
+    }
+  ]
+}
